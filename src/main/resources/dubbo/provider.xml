@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://dubbo.apache.org/schema/dubbo
+        http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="java-example-app"/>
+
+    <!-- 使用zk注册中心暴露服务地址 -->
+    <dubbo:registry id="zk"
+                    address="zookeeper://119.29.148.121:2181"/>
+
+    <!--<dubbo:registry id="diy"-->
+                    <!--address="diy://119.29.148.121:2181"/>-->
+
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+    <!-- 默认的服务端配置 -->
+    <dubbo:provider registry="zk" retries="0" timeout="3000"
+                    filter="diy"/>
+                    <!--listener="diy"-->
+                    <!--cluster="diy"/>-->
+
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="com.github.archerda.dubbo.provider.HelloService" ref="helloService" version="1.0"/>
+    <!--<dubbo:service interface="com.github.archerda.dubbo.provider.HelloService" ref="mockHelloService" group="mock" registry="diy" version="1.0"/>-->
+    <!--<dubbo:service interface="com.github.archerda.dubbo.provider.HelloService" ref="realHelloService" group="real" registry="diy" version="1.0"/>-->
+
+    <!-- 和本地bean一样实现服务 -->
+    <bean id="helloService" class="com.github.archerda.dubbo.provider.HelloServiceImpl"/>
+    <!--<bean id="mockHelloService" class="com.github.archerda.dubbo.provider.MockHelloServiceImpl"/>-->
+    <!--<bean id="realHelloService" class="com.github.archerda.dubbo.provider.HelloServiceImpl"/>-->
+</beans>

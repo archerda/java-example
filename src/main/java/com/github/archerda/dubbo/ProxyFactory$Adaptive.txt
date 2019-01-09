@@ -1,0 +1,45 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package com.alibaba.dubbo.rpc;
+
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.extension.ExtensionLoader;
+
+public class ProxyFactory$Adaptive implements ProxyFactory {
+    public ProxyFactory$Adaptive() {
+    }
+
+    public Object getProxy(Invoker var1) throws RpcException {
+        if (var1 == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument == null");
+        } else if (var1.getUrl() == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument getUrl() == null");
+        } else {
+            URL var2 = var1.getUrl();
+            String var3 = var2.getParameter("proxy", "javassist");
+            if (var3 == null) {
+                throw new IllegalStateException("Fail to get extension(com.alibaba.dubbo.rpc.ProxyFactory) name from url(" + var2.toString() + ") use keys([proxy])");
+            } else {
+                ProxyFactory var4 = (ProxyFactory)ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension(var3);
+                return var4.getProxy(var1);
+            }
+        }
+    }
+
+    public Invoker getInvoker(Object var1, Class var2, URL var3) throws RpcException {
+        if (var3 == null) {
+            throw new IllegalArgumentException("url == null");
+        } else {
+            String var5 = var3.getParameter("proxy", "javassist");
+            if (var5 == null) {
+                throw new IllegalStateException("Fail to get extension(com.alibaba.dubbo.rpc.ProxyFactory) name from url(" + var3.toString() + ") use keys([proxy])");
+            } else {
+                ProxyFactory var6 = (ProxyFactory)ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension(var5);
+                return var6.getInvoker(var1, var2, var3);
+            }
+        }
+    }
+}

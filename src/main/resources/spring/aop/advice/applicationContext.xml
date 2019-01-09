@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.github.archerda.spring.aop.advice"/>
+
+    <aop:config>
+        <aop:aspect ref="aopAdviceTestAspect">
+            <aop:pointcut id="testPointCut" expression="execution(* com.github.archerda.spring.aop.advice.*.*(..))"/>
+            <aop:around method="around" pointcut-ref="testPointCut"/>
+            <aop:before method="before" pointcut-ref="testPointCut"/>
+            <aop:after method="after" pointcut-ref="testPointCut"/>
+            <aop:after-returning method="afterReturning" pointcut-ref="testPointCut"/>
+            <aop:after-throwing method="afterThrowing" pointcut-ref="testPointCut"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

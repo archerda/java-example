@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+   <!-- No.1: 反射技术 -->
+    <bean id="reflectionCar" class="com.github.archerda.designpattern.factory.factorymethod.spring.Car">
+        <constructor-arg index="0" value="Honda"/>
+    </bean>
+
+
+    <!-- No.2: 简单工厂方法 -->
+    <bean id="simpleFactoryCar" class="com.github.archerda.designpattern.factory.factorymethod.spring.CarStaticFactory"
+          factory-method="getCar">
+        <constructor-arg index="0" value="BMW"/>
+    </bean>
+
+    <!-- No.3： 实例工厂方法 -->
+    <bean id="carDynamicFactory"
+          class="com.github.archerda.designpattern.factory.factorymethod.spring.CarDynamicFactory">
+        <property name="carMap">
+            <map>
+                <entry key="Honda">
+                    <bean class="com.github.archerda.designpattern.factory.factorymethod.spring.Car">
+                        <constructor-arg name="name" value="Honda"/>
+                    </bean>
+                </entry>
+                <entry key="BMW">
+                    <bean class="com.github.archerda.designpattern.factory.factorymethod.spring.Car">
+                        <constructor-arg name="name" value="AUDI"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    <bean id="dynamicFactoryCar" factory-bean="carDynamicFactory" factory-method="getCar">
+        <constructor-arg index="0" value="AUDI"/>
+    </bean>
+
+    <!-- No.4： Factory Bean方式-->
+    <bean id="factoryBeanCar"
+          class="com.github.archerda.designpattern.factory.factorymethod.spring.CarFactoryBean">
+        <property name="carName" value="Honda"/>
+    </bean>
+</beans>

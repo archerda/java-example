@@ -1,0 +1,23 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package com.alibaba.dubbo.registry.integration;
+
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.rpc.Invoker;
+import com.alibaba.dubbo.rpc.protocol.InvokerWrapper;
+
+public class RegistryProtocol$InvokerDelegete<T> extends InvokerWrapper<T> {
+    private final Invoker<T> invoker;
+
+    public RegistryProtocol$InvokerDelegete(Invoker<T> invoker, URL url) {
+        super(invoker, url);
+        this.invoker = invoker;
+    }
+
+    public Invoker<T> getInvoker() {
+        return this.invoker instanceof RegistryProtocol$InvokerDelegete ? ((RegistryProtocol$InvokerDelegete)this.invoker).getInvoker() : this.invoker;
+    }
+}

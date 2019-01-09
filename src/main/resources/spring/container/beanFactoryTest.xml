@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spring233:beans
+        xmlns:spring233="http://www.springframework.org/schema/beans"
+        xmlns:xsi233="http://www.w3.org/2001/XMLSchema-instance"
+        xsi233:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <spring233:bean id="myTestBean" class="com.github.archerda.spring.ioc.container.MyTestBean"/>
+
+</spring233:beans>

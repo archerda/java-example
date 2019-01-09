@@ -1,0 +1,32 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package com.alibaba.dubbo.rpc.cluster;
+
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.extension.ExtensionLoader;
+import com.alibaba.dubbo.rpc.Invoker;
+
+public class Cluster$Adpative implements Cluster {
+    public Cluster$Adpative() {
+    }
+
+    public Invoker join(Directory var1) throws Directory {
+        if (var1 == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.cluster.Directory argument == null");
+        } else if (var1.getUrl() == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.cluster.Directory argument getUrl() == null");
+        } else {
+            URL var2 = var1.getUrl();
+            String var3 = var2.getParameter("cluster", "failover");
+            if (var3 == null) {
+                throw new IllegalStateException("Fail to get extension(com.alibaba.dubbo.rpc.cluster.Cluster) name from url(" + var2.toString() + ") use keys([cluster])");
+            } else {
+                Cluster var4 = (Cluster)ExtensionLoader.getExtensionLoader(Cluster.class).getExtension(var3);
+                return var4.join(var1);
+            }
+        }
+    }
+}

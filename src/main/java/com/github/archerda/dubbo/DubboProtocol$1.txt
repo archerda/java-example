@@ -1,0 +1,109 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package com.alibaba.dubbo.rpc.protocol.dubbo;
+
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.remoting.Channel;
+import com.alibaba.dubbo.remoting.RemotingException;
+import com.alibaba.dubbo.remoting.exchange.ExchangeChannel;
+import com.alibaba.dubbo.remoting.exchange.support.ExchangeHandlerAdapter;
+import com.alibaba.dubbo.rpc.Invocation;
+import com.alibaba.dubbo.rpc.Invoker;
+import com.alibaba.dubbo.rpc.RpcContext;
+import com.alibaba.dubbo.rpc.RpcInvocation;
+
+class DubboProtocol$1 extends ExchangeHandlerAdapter {
+    private void invoke(Channel channel, String methodKey) {
+        Invocation invocation = this.createInvocation(channel, channel.getUrl(), methodKey);
+        if (invocation != null) {
+            try {
+                this.received(channel, invocation);
+            } catch (Throwable var5) {
+                DubboProtocol.access$300(this.this$0).warn("Failed to invoke event method " + invocation.getMethodName() + "(), cause: " + var5.getMessage(), var5);
+            }
+        }
+
+    }
+
+    DubboProtocol$1(DubboProtocol var1) {
+        this.this$0 = var1;
+    }
+
+    public Object reply(ExchangeChannel channel, Object message) throws RemotingException {
+        if (!(message instanceof Invocation)) {
+            throw new RemotingException(channel, "Unsupported request: " + (message == null ? null : message.getClass().getName() + ": " + message) + ", channel: consumer: " + channel.getRemoteAddress() + " --> provider: " + channel.getLocalAddress());
+        } else {
+            Invocation inv = (Invocation)message;
+            Invoker invoker = this.this$0.getInvoker(channel, inv);
+            if (Boolean.TRUE.toString().equals(inv.getAttachments().get("_isCallBackServiceInvoke"))) {
+                String methodsStr = (String)invoker.getUrl().getParameters().get("methods");
+                boolean hasMethod = false;
+                if (methodsStr != null && methodsStr.indexOf(",") != -1) {
+                    String[] methods = methodsStr.split(",");
+                    String[] arr$ = methods;
+                    int len$ = methods.length;
+
+                    for(int i$ = 0; i$ < len$; ++i$) {
+                        String method = arr$[i$];
+                        if (inv.getMethodName().equals(method)) {
+                            hasMethod = true;
+                            break;
+                        }
+                    }
+                } else {
+                    hasMethod = inv.getMethodName().equals(methodsStr);
+                }
+
+                if (!hasMethod) {
+                    DubboProtocol.access$000(this.this$0).warn(new IllegalStateException("The methodName " + inv.getMethodName() + " not found in callback service interface ,invoke will be ignored." + " please update the api interface. url is:" + invoker.getUrl()) + " ,invocation is :" + inv);
+                    return null;
+                }
+            }
+
+            RpcContext.getContext().setRemoteAddress(channel.getRemoteAddress());
+            return invoker.invoke(inv);
+        }
+    }
+
+    public void disconnected(Channel channel) throws RemotingException {
+        if (DubboProtocol.access$100(this.this$0).isInfoEnabled()) {
+            DubboProtocol.access$200(this.this$0).info("disconnected from " + channel.getRemoteAddress() + ",url:" + channel.getUrl());
+        }
+
+        this.invoke(channel, "ondisconnect");
+    }
+
+    public void received(Channel channel, Object message) throws RemotingException {
+        if (message instanceof Invocation) {
+            this.reply((ExchangeChannel)channel, message);
+        } else {
+            super.received(channel, message);
+        }
+
+    }
+
+    private Invocation createInvocation(Channel channel, URL url, String methodKey) {
+        String method = url.getParameter(methodKey);
+        if (method != null && method.length() != 0) {
+            RpcInvocation invocation = new RpcInvocation(method, new Class[0], new Object[0]);
+            invocation.setAttachment("path", url.getPath());
+            invocation.setAttachment("group", url.getParameter("group"));
+            invocation.setAttachment("interface", url.getParameter("interface"));
+            invocation.setAttachment("version", url.getParameter("version"));
+            if (url.getParameter("dubbo.stub.event", false)) {
+                invocation.setAttachment("dubbo.stub.event", Boolean.TRUE.toString());
+            }
+
+            return invocation;
+        } else {
+            return null;
+        }
+    }
+
+    public void connected(Channel channel) throws RemotingException {
+        this.invoke(channel, "onconnect");
+    }
+}

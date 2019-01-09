@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.github.archerda.spring.aop.introduce"/>
+
+    <bean id="performance" class="com.github.archerda.spring.aop.introduce.DefaultPerformance"/>
+    <bean id="encoreable" class="com.github.archerda.spring.aop.introduce.DefaultEncoreable"/>
+
+    <aop:config>
+        <aop:aspect>
+            <aop:declare-parents types-matching="com.github.archerda.spring.aop.introduce.Performance+"
+                                 implement-interface="com.github.archerda.spring.aop.introduce.Encoreable"
+                                 default-impl="com.github.archerda.spring.aop.introduce.DefaultEncoreable"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

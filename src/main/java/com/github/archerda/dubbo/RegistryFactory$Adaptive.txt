@@ -1,0 +1,28 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package com.alibaba.dubbo.registry;
+
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.extension.ExtensionLoader;
+
+public class RegistryFactory$Adaptive implements RegistryFactory {
+    public RegistryFactory$Adaptive() {
+    }
+
+    public Registry getRegistry(URL var1) {
+        if (var1 == null) {
+            throw new IllegalArgumentException("url == null");
+        } else {
+            String var3 = var1.getProtocol() == null ? "dubbo" : var1.getProtocol();
+            if (var3 == null) {
+                throw new IllegalStateException("Fail to get extension(com.alibaba.dubbo.registry.RegistryFactory) name from url(" + var1.toString() + ") use keys([protocol])");
+            } else {
+                RegistryFactory var4 = (RegistryFactory)ExtensionLoader.getExtensionLoader(RegistryFactory.class).getExtension(var3);
+                return var4.getRegistry(var1);
+            }
+        }
+    }
+}

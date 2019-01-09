@@ -1,0 +1,18 @@
+package com.alibaba.dubbo.rpc.proxy.javassist;
+
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.bytecode.Wrapper;
+import com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker;
+
+class JavassistProxyFactory$1 extends AbstractProxyInvoker<T> {
+
+    JavassistProxyFactory$1(JavassistProxyFactory var1, Object x0, Class x1, URL x2, Wrapper var5) {
+        super(x0, x1, x2);
+        this.this$0 = var1;
+        this.val$wrapper = var5;
+    }
+
+    protected Object doInvoke(T proxy, String methodName, Class<?>[] parameterTypes, Object[] arguments) throws Throwable {
+        return this.val$wrapper.invokeMethod(proxy, methodName, parameterTypes, arguments);
+    }
+}
