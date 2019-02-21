@@ -1,0 +1,2 @@
+com.github.archerda.jdk.spi.MysqlRepository
+com.github.archerda.jdk.spi.MongoRepository
