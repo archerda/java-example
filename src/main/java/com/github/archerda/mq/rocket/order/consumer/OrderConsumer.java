@@ -37,6 +37,10 @@ public class OrderConsumer {
 
         //订阅指定 Topic 下的所有消息
         consumer.subscribe(TOPIC_NAME, "*");
+        consumer.setConsumeThreadMin();
+        consumer.setConsumeMessageBatchMaxSize();
+        consumer.setConsumeFromWhere();
+        consumer.setConsumeTimeout();
 
         //注册消息监听器
         consumer.registerMessageListener(orderMessageListener);
