@@ -13,7 +13,7 @@
         <jdk.version>1.8</jdk.version>
         <spring-framework.version>4.1.7.RELEASE</spring-framework.version>
         <servlet-api.version>2.4</servlet-api.version>
-        <mysql-connector-java.version>5.1.24</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.28</mysql-connector-java.version>
         <ojdbc14.version>10.2.0.4.0</ojdbc14.version>
         <javax.inject.version>1</javax.inject.version>
         <junit.version>4.12</junit.version>
