@@ -8,21 +8,24 @@ import com.alibaba.fastjson.JSON;
 public class JsonAndJsonString {
 
     public static void main(String[] args) {
-        User user = new User(20, "archer", new Class("六年级3班"));
+        User user = new User(20, "archer");
         Object json = JSON.toJSON(user);
         String jsonString = JSON.toJSONString(user);
-        System.out.println(1);
+        System.out.println(jsonString);
+
+        String a = "{\"name\":\"archer2\", \"name2\":\"archer=3\"}";
+        User user1 = JSON.parseObject(a, User.class);
+        System.out.println(user1);
     }
 
-    private static class User {
-        private int age;
+    public static class User {
+        private int age = 1;
         private String name;
-        private Class aClass;
 
-        public User(int age, String name, Class aClass) {
+
+        public User(int age, String name) {
             this.age = age;
             this.name = name;
-            this.aClass = aClass;
         }
 
         public int getAge() {
@@ -41,12 +44,12 @@ public class JsonAndJsonString {
             this.name = name;
         }
 
-        public Class getaClass() {
-            return aClass;
-        }
-
-        public void setaClass(Class aClass) {
-            this.aClass = aClass;
+        @Override
+        public String toString() {
+            return "User{" +
+                "age=" + age +
+                ", name='" + name + '\'' +
+                '}';
         }
     }
 
